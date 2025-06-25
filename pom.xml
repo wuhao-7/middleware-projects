@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>org.apache</groupId>
+		<artifactId>apache</artifactId>
+		<version>23</version>
+	</parent>
+
+
+	<groupId>com.acme</groupId>
+	<artifactId>middleware-projects</artifactId>
+	<version>${revision}</version>
+	<packaging>pom</packaging>
+	
+
+	<name>middleware-projects</name>
+	<description>Middleware Projects</description>
+
+	<properties>
+		<java.version>11</java.version>
+		<maven.compiler.source>11</maven.compiler.source>
+		<maven.compiler.target>11</maven.compiler.target>
+		<revision>0.0.1-SNAPSHOT</revision>
+		<spring-boot.version>2.7.9</spring-boot.version>
+		<spring-cloud.version>2021.0.4</spring-cloud.version>
+		<dubbo.revision>2.7.8</dubbo.revision>
+		<maven-flatten-plugin.version>1.7.0</maven-flatten-plugin.version>
+		<mybatis-version>3.5.9</mybatis-version>
+		<mybatis-version-spring-boot>2.2.2</mybatis-version-spring-boot>
+		<resilicence4j-version-spring-boot>1.7.0</resilicence4j-version-spring-boot>
+
+	</properties>
+
+	<modules>
+		<module>zookeeper-project</module>
+        <module>distributed-transaction-project</module>
+		<module>rpc-project</module>
+	</modules>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-dependencies</artifactId>
+				<version>${spring-boot.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-dependencies</artifactId>
+				<version>${spring-cloud.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>org.apache.dubbo</groupId>
+				<artifactId>dubbo-dependencies-bom</artifactId>
+				<version>${dubbo.revision}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>org.mybatis</groupId>
+				<artifactId>mybatis</artifactId>
+				<version>${mybatis-version}</version>
+			</dependency>
+
+
+			<dependency>
+				<groupId>org.mybatis.spring.boot</groupId>
+				<artifactId>mybatis-spring-boot-starter</artifactId>
+				<version>${mybatis-version-spring-boot}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>io.github.resilience4j</groupId>
+				<artifactId>resilience4j-framework-common</artifactId>
+				<version>${resilicence4j-version-spring-boot}</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>flatten-maven-plugin</artifactId>
+				<version>${maven-flatten-plugin.version}</version>
+				<configuration>
+					<updatePomFile>true</updatePomFile>
+					<flattenMode>oss</flattenMode>
+				</configuration>
+				<executions>
+					<execution>
+						<id>flatten</id>
+						<goals>
+							<goal>flatten</goal>
+						</goals>
+						<phase>process-resources</phase>
+					</execution>
+					<execution>
+						<id>flatten.clean</id>
+						<goals>
+							<goal>clean</goal>
+						</goals>
+						<phase>clean</phase>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+	<profiles>
+		<profile>
+			<id>Spring-Cloud-Hoxton.SR12</id>
+			<properties>
+				<spring-boot.version>2.3.12.RELEASE</spring-boot.version>
+				<spring-cloud.version>Hoxton.SR12</spring-cloud.version>
+			</properties>
+		</profile>
+		<profile>
+			<id>Spring-Cloud-Greenwich.SR6</id>
+			<properties>
+				<spring-boot.version>2.1.13.RELEASE</spring-boot.version>
+				<spring-cloud.version>Greenwich.SR6</spring-cloud.version>
+			</properties>
+		</profile>
+	</profiles>
+
+</project>
