@@ -7,6 +7,7 @@ import com.acme.middleware.rpc.context.ServiceContext;
 import com.acme.middleware.rpc.service.DefaultServiceInstance;
 import com.acme.middleware.rpc.service.ServiceInstance;
 import com.acme.middleware.rpc.service.discovery.ServiceDiscovery;
+import com.acme.middleware.rpc.transport.InvocationRequestHandler;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.buffer.PooledByteBufAllocator;
 import io.netty.channel.*;
@@ -46,11 +47,17 @@ public class RpcServer implements AutoCloseable{
 
     private Channel channel;
 
-    public RpcServer(String applicationName, int port, ServiceContext serviceContext, ServiceDiscovery serviceDiscovery) {
+    public RpcServer(String applicationName, int port) {
         this.applicationName = applicationName;
         this.port = port;
         this.serviceContext = ServiceContext.DEFAULT;
         this.serviceDiscovery = ServiceDiscovery.DEFAULT;
+    }
+
+    public RpcServer registerServer(String serviceName,Object service){
+        serviceContext.registerService(serviceName,service);
+        return this;
+
     }
 
     private  ServiceInstance createLocalInstance() throws Exception {
@@ -86,15 +93,46 @@ public class RpcServer implements AutoCloseable{
                     protected void initChannel(SocketChannel ch) throws Exception {
                         ch.pipeline().addLast("message-encoder",new MessageEncoder());
                         ch.pipeline().addLast("message-decoder",new MessageDecoder());
-//                        ch.pipeline().addLast("request-handle",new Inv());
+                        ch.pipeline().addLast("request-handle",new InvocationRequestHandler(serviceContext));
                     }
                 });
+        ChannelFuture channelFuture = bootstrap.bind(port);
 
-        return null; // todo
+        //注册服务
+        registerServer();
+        //监听shutdown hook
+        Runtime.getRuntime().addShutdownHook(new Thread(()->serviceDiscovery.deregister(localServiceInstance)));
+        try {
+            channel = channelFuture.sync().channel();
+            channel.closeFuture().sync();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return this;
 
     }
+
+    public void registerServer() {
+        serviceDiscovery.register(localServiceInstance);
+    }
+
+
+
     @Override
     public void close() throws Exception {
+        deregisterServer();
+        if (channel != null) {
+            channel.close().sync();
+        }
+        if (group != null) {
+            group.shutdownGracefully();
+        }
+        if (workerGroup != null) {
+            workerGroup.shutdownGracefully();
+        }
+    }
 
+    private void deregisterServer() {
+        serviceDiscovery.deregister(localServiceInstance);
     }
 }
