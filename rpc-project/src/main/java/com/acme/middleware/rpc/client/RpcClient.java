@@ -50,7 +50,7 @@ public class RpcClient implements AutoCloseable {
                     protected void initChannel(SocketChannel ch) throws Exception {
                         ch.pipeline().addLast("message-encoder",new MessageEncoder());
                         ch.pipeline().addLast("message-decoder",new MessageDecoder());
-                        ch.pipeline().addLast("repose-handle",new InvocationResponseHandle());
+                        ch.pipeline().addLast("response-handle",new InvocationResponseHandle());
                     }
                 });
 

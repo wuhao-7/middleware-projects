@@ -51,7 +51,7 @@ public class FileSystemServiceDiscovery implements ServiceDiscovery{
     }
 
     @Override
-    public List<ServiceInstance> getServiceInstance(String serviceName) {
+    public List<ServiceInstance> getServiceInstances(String serviceName) {
         File serviceDirectory = new File(rootDirectory, serviceName);
         Collection<File> files = FileUtils.listFiles(serviceDirectory,null,false);
 

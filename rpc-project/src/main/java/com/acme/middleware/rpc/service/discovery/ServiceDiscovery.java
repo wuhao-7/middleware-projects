@@ -22,7 +22,7 @@ public interface ServiceDiscovery {
 
     void deregister(ServiceInstance serviceInstance);
 
-    List<ServiceInstance>  getServiceInstance(String serviceName);
+    List<ServiceInstance>  getServiceInstances(String serviceName);
 
     void close();
 }
