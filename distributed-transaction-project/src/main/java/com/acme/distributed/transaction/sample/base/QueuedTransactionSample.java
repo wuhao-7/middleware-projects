@@ -1,6 +1,6 @@
-package com.acme.distributed.transaction.base;
+package com.acme.distributed.transaction.sample.base;
 
-import com.acme.distributed.transaction.acid.LocalTransactionSample;
+import com.acme.distributed.transaction.sample.acid.LocalTransactionSample;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;

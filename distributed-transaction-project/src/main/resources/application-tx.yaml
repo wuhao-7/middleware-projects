@@ -1,0 +1,8 @@
+spring:
+  kafka:
+    bootstrapServers:
+      - 127.0.0.1:9092
+    producer:
+      acks: 1
+      retries: 3
+      valueSerializer: org.springframework.kafka.support.serializer.JsonSerializer

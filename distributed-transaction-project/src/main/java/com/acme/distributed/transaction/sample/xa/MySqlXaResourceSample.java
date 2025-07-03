@@ -1,4 +1,4 @@
-package com.acme.distributed.transaction;
+package com.acme.distributed.transaction.sample.xa;
 
 import com.mysql.cj.jdbc.MysqlXADataSource;
 import com.mysql.cj.jdbc.MysqlXid;

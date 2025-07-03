@@ -76,7 +76,7 @@ public class ServiceInvocationHandler implements InvocationHandler {
     }
 
     private ServiceInstance selectServiceProviderInstance() {
-        List<ServiceInstance> serviceInstances = serviceDiscovery.getServiceInstance(serviceName);
+        List<ServiceInstance> serviceInstances = serviceDiscovery.getServiceInstances(serviceName);
         return selector.select(serviceInstances);
     }
 

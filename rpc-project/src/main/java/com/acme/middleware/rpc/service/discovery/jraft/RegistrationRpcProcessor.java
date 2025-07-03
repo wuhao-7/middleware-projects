@@ -51,7 +51,7 @@ public class RegistrationRpcProcessor implements RpcProcessor<ServiceDiscoveryOu
             return;
         }
         Task task = new Task();
-        //将注册的服务实例序列化为byte数组
+        // 将注册的服务实例序列化为byte数组
         // 写入到本地日志, 将作为AppendEntries RPC 请求的来源 ->Followers
         task.setData(operation.serialize());
         //设置ServiceInstanceRegistrationClosure
