@@ -1,0 +1,3 @@
+com.acme.middleware.rpc.service.discovery.jraft.common.internal.service.discovery.GetServiceInstanceRequestProcessor
+com.acme.middleware.rpc.service.discovery.jraft.common.internal.service.discovery.RegistrationRequestProcessor
+com.acme.middleware.rpc.service.discovery.jraft.common.internal.service.discovery.HeartBeatRequestProcessor

@@ -94,7 +94,7 @@ public class ServiceDiscoveryServer {
     }
 
     public static void main(final  String[] args) throws IOException {
-        if (args.length > 2){
+        if (args.length < 2){
             String className = ServiceDiscoveryServer.class.getName();
             System.err.printf("Usage : %s {serverId} {initConf}\n",className);
             System.err.printf("Example : %s 127.0.0.1:8081,127.0.0.1:8082,127.0.0.1:8083\n",className);

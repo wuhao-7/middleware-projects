@@ -1,1 +1,2 @@
-com.acme.middleware.rpc.serializer.DefaultSerializer
+#com.acme.middleware.rpc.serializer.DefaultSerializer
+com.acme.middleware.rpc.serializer.hessian.Hessian2Serializer

@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import static com.acme.middleware.rpc.service.discovery.jraft.RegistrationRpcProcessor.adaptServiceInstance;
 
@@ -58,6 +59,9 @@ public class JRaftServiceDiscovery implements ServiceDiscovery {
         } catch (Throwable e) {
             log.error("Fail to register a server instance:" + serviceInstance,e);
         }
+        //注册成功后,启动心跳线程服务
+        ServiceDiscoveryHeartBeat heartBeatTask = new ServiceDiscoveryHeartBeat(serviceInstance, client);
+        this.heartbeatExecutor.scheduleWithFixedDelay(heartBeatTask, 0, 5, TimeUnit.SECONDS);
     }
 
     private ServiceDiscoveryOuter.Registration buildRegistration(ServiceInstance serviceInstance, boolean registered) {

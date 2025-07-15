@@ -46,7 +46,6 @@ public class ServiceDiscoveryClient {
 
         this.cliClientService = cliClientService;
         this.rpcClient = cliClientService.getRpcClient();
-        this.rpcClient = cliClientService.getRpcClient();
     }
 
     public <R> R invoke(Object request) throws Throwable {
